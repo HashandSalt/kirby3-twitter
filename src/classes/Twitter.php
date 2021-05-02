@@ -18,19 +18,22 @@ class Twitter {
     self::$connection = new TwitterOAuth(option('twit.consumerkey'), option('twit.consumersecret'), option('twit.accesstoken'), option('twit.accesstokensecret'));
    }
 
-   public function timeline($type, $count = 25, $er = true, $screenname = null) {
+   public function timeline($type, $count, $er, $screenname) {
 
     if (!self::$connection) {
       \HashAndSalt\Twitter\Twitter::init();
     }
 
     $twitterCache = kirby()->cache('hashandsalt.kirby-twitter.tweets');
-    $this->tweets = $twitterCache->get('timeline');
+
+    $cachename = $screenname ? $screenname : 'timeline';
+
+    $this->tweets = $twitterCache->get($cachename);
     // There's nothing in the cache, so let's fetch it
     if ($this->tweets === null) {
         $this->tweets = self::$connection->get($type, ['count' => $count, "exclude_replies" => $er, "tweet_mode" => 'extended', "screen_name" => $screenname]);
         $this->tweets = json_decode(json_encode($this->tweets), true);
-        $twitterCache->set('timeline', $this->tweets, 120);
+        $twitterCache->set($cachename, $this->tweets, option('twit.cachelife'));
     }
 
     $this->tweets = $this->setlinks($this->tweets);
@@ -49,7 +52,7 @@ class Twitter {
     if ($this->single === null) {
         $this->single = self::$connection->get("statuses/show", ["id" => $id, "tweet_mode" => 'extended']);
         $this->single = json_decode(json_encode($this->single), true);
-        $twitterCache->set($id, $this->single, 120);
+        $twitterCache->set($id, $this->single, option('twit.cachelife'));
     }
     $this->single = $this->setlinks($this->single);
     return $this->single;
