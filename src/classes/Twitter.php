@@ -62,7 +62,7 @@ class Twitter {
    public function setLinks($source) {
     array_walk_recursive(
       $source,
-        function (&$value, &$key) {
+        function (&$value, $key) {
           if (in_array($key, array('url','text','full_text','expanded_url','description','display_url'), true ) ) {
             if (!is_array($value)) {
               $value = $this->linkify($value);
