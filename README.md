@@ -50,8 +50,6 @@ You wont get far without authenticating. Set the following in your config to gai
 'twit.cachelife'         =>  30,
 ```
 
-
-
 ## Usage
 
 To get from your own timeline:
@@ -73,6 +71,10 @@ To get tweets from another timeline, you pass in a screen name as the 4th parame
 The full information from the API is in the collection. `dump()` the collection to see other information you may want to use.
 
 Modify the snippets accoridng to your desired HTML.
+
+## Get a specific tweet by id
+
+<?= snippet('twitter/tweet', ['id' => '1388604038015447042', 'media' => true])?>
 
 ## Known Issues
 

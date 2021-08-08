@@ -1,33 +1,33 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => '25a4ef0630a27ab588668a8387744eccf1631149',
+    'reference' => '2dec11d49ceb1619aff4055d882ce3537f561ba4',
     'name' => 'getkirby/pluginkit',
   ),
   'versions' => 
   array (
     'abraham/twitteroauth' => 
     array (
-      'pretty_version' => '2.0.1',
-      'version' => '2.0.1.0',
+      'pretty_version' => '2.0.2',
+      'version' => '2.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'af6d0ba772731d4f83524fccb24281fe6149ef43',
+      'reference' => '5a424e80a1200674451844fbaae8a0098a316a01',
     ),
     'composer/ca-bundle' => 
     array (
-      'pretty_version' => '1.2.9',
-      'version' => '1.2.9.0',
+      'pretty_version' => '1.2.10',
+      'version' => '1.2.10.0',
       'aliases' => 
       array (
       ),
-      'reference' => '78a0e288fdcebf92aa2318a8d3656168da6ac1a5',
+      'reference' => '9fdb22c2e97a614657716178093cd1da90a64aa8',
     ),
     'getkirby/composer-installer' => 
     array (
@@ -40,12 +40,12 @@
     ),
     'getkirby/pluginkit' => 
     array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => '25a4ef0630a27ab588668a8387744eccf1631149',
+      'reference' => '2dec11d49ceb1619aff4055d882ce3537f561ba4',
     ),
   ),
 );
