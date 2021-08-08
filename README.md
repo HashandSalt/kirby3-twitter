@@ -74,7 +74,9 @@ Modify the snippets accoridng to your desired HTML.
 
 ## Get a specific tweet by id
 
+```
 <?= snippet('twitter/tweet', ['id' => '1388604038015447042', 'media' => true])?>
+```
 
 ## Known Issues
 
