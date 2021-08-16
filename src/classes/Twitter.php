@@ -74,7 +74,7 @@ class Twitter {
   }
 
 
-   public function linkify($value, $protocols = array('http', 'https', 'twitter', 'mail'), array $attributes = array('target' => '_blank'))
+   public function linkify($value, $protocols = array('http', 'https', 'twitter', 'mail'), array $attributes = array('target' => '_blank', 'rel' => 'noopener'))
     {
     // Link attributes
     $attr = '';
