@@ -3,5 +3,5 @@
     <li>
         <?php snippet('twitter/tweet', compact('tweet')) ?>
     </li>
-    <?php endforeach; ?>
+    <?php endforeach ?>
 </ul>

@@ -128,9 +128,13 @@ class Twitter {
 
 
     /**
+     * Extracts texts to `linkify` their contents
      *
+     * @param array $source
+     * @return array
      */
-    public function setLinks(array $source) {
+    public function setLinks(array $source): array
+    {
         array_walk_recursive(
             $source, function (&$value, $key) {
                 if (in_array($key, ['url', 'text', 'full_text', 'expanded_url', 'description', 'display_url'], true)) {
@@ -145,7 +149,15 @@ class Twitter {
     }
 
 
-    public function linkify(string $value, array $protocols = ['http', 'https', 'twitter', 'mail'], array $attributes = ['target' => '_blank', 'rel' => 'noopener'])
+    /**
+     * Converts linkable text to hyperlinks
+     *
+     * @param string $value
+     * @param array $protocols
+     * @param array $attributes
+     * @return string
+     */
+    public function linkify(string $value, array $protocols = ['http', 'https', 'twitter', 'mail'], array $attributes = ['target' => '_blank', 'rel' => 'noopener']): string
     {
         # Link attributes
         $attr = '';
