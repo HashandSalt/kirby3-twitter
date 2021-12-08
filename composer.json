@@ -1,12 +1,12 @@
 {
-    "name": "getkirby/pluginkit",
-    "description": "Kirby Example Plugin",
+    "name": "hashandsalt/kirby3-twitter",
+    "description": "Kirby Twitter Plugin",
     "type": "kirby-plugin",
     "license": "MIT",
     "authors": [
         {
-            "name": "Your Name",
-            "email": "you@example.com"
+            "name": "Hash&Salt",
+            "email": "hello@hashandsalt.com"
         }
     ],
     "require": {

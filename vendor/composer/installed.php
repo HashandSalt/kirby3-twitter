@@ -5,8 +5,8 @@
         'type' => 'kirby-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '2dec11d49ceb1619aff4055d882ce3537f561ba4',
-        'name' => 'getkirby/pluginkit',
+        'reference' => 'bd80e838a550caeea0e064b42d3c1538950883ec',
+        'name' => 'hashandsalt/kirby3-twitter',
         'dev' => true,
     ),
     'versions' => array(
@@ -37,13 +37,13 @@
             'reference' => 'c98ece30bfba45be7ce457e1102d1b169d922f3d',
             'dev_requirement' => false,
         ),
-        'getkirby/pluginkit' => array(
+        'hashandsalt/kirby3-twitter' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
             'type' => 'kirby-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '2dec11d49ceb1619aff4055d882ce3537f561ba4',
+            'reference' => 'bd80e838a550caeea0e064b42d3c1538950883ec',
             'dev_requirement' => false,
         ),
     ),
