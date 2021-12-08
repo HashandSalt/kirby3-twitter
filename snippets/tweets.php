@@ -1,4 +1,4 @@
-<?php $tweets = $page->tweets($type, $count, $excludereplies, $screenname); ?>
+<?php $tweets = $page->tweets($type, $count, $excludeReplies, $screenName); ?>
 
 <ul class="tweetlist">
     <?php foreach ($tweets as $tweet): ?>

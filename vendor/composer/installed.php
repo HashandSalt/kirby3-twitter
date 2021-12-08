@@ -1,51 +1,50 @@
-<?php return array (
-  'root' => 
-  array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
-    'aliases' => 
-    array (
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'type' => 'kirby-plugin',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => '2dec11d49ceb1619aff4055d882ce3537f561ba4',
+        'name' => 'getkirby/pluginkit',
+        'dev' => true,
     ),
-    'reference' => '25a4ef0630a27ab588668a8387744eccf1631149',
-    'name' => 'getkirby/pluginkit',
-  ),
-  'versions' => 
-  array (
-    'abraham/twitteroauth' => 
-    array (
-      'pretty_version' => '2.0.1',
-      'version' => '2.0.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'af6d0ba772731d4f83524fccb24281fe6149ef43',
+    'versions' => array(
+        'abraham/twitteroauth' => array(
+            'pretty_version' => '2.0.2',
+            'version' => '2.0.2.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../abraham/twitteroauth',
+            'aliases' => array(),
+            'reference' => '5a424e80a1200674451844fbaae8a0098a316a01',
+            'dev_requirement' => false,
+        ),
+        'composer/ca-bundle' => array(
+            'pretty_version' => '1.3.1',
+            'version' => '1.3.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/./ca-bundle',
+            'aliases' => array(),
+            'reference' => '4c679186f2aca4ab6a0f1b0b9cf9252decb44d0b',
+            'dev_requirement' => false,
+        ),
+        'getkirby/composer-installer' => array(
+            'pretty_version' => '1.2.1',
+            'version' => '1.2.1.0',
+            'type' => 'composer-plugin',
+            'install_path' => __DIR__ . '/../getkirby/composer-installer',
+            'aliases' => array(),
+            'reference' => 'c98ece30bfba45be7ce457e1102d1b169d922f3d',
+            'dev_requirement' => false,
+        ),
+        'getkirby/pluginkit' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'type' => 'kirby-plugin',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '2dec11d49ceb1619aff4055d882ce3537f561ba4',
+            'dev_requirement' => false,
+        ),
     ),
-    'composer/ca-bundle' => 
-    array (
-      'pretty_version' => '1.2.9',
-      'version' => '1.2.9.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '78a0e288fdcebf92aa2318a8d3656168da6ac1a5',
-    ),
-    'getkirby/composer-installer' => 
-    array (
-      'pretty_version' => '1.2.1',
-      'version' => '1.2.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'c98ece30bfba45be7ce457e1102d1b169d922f3d',
-    ),
-    'getkirby/pluginkit' => 
-    array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
-      'aliases' => 
-      array (
-      ),
-      'reference' => '25a4ef0630a27ab588668a8387744eccf1631149',
-    ),
-  ),
 );

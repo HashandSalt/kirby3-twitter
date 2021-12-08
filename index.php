@@ -16,9 +16,9 @@ Kirby::plugin('hashandsalt/twitter', [
       ],
   
     'pageMethods' => [
-        'tweets' => function ($type, $count, $er, $screenname) {
+        'tweets' => function ($type, $count, $er, $screenName) {
             $init = new Twitter();
-            return $init->timeline($type, $count, $er, $screenname);
+            return $init->timeline($type, $count, $er, $screenName);
         },
         'tweet' => function ($id) {
             $init = new Twitter();
