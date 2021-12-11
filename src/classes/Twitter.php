@@ -43,6 +43,8 @@ class Twitter {
             option('twit.accesstoken'),
             option('twit.accesstokensecret')
         );
+
+
     }
 
 
@@ -55,12 +57,14 @@ class Twitter {
      * @param string $screenName
      * @return array
      */
-    public function timeline(string $type, int $count, bool $excludeReplies, string $screenName): array
+    public function timeline(string $type, int $count, bool $excludeReplies, mixed $screenName): array
     {
         # Ensure API connection
         if (!self::$connection) {
             \HashAndSalt\Twitter\Twitter::init();
         }
+
+        self::$connection->setApiVersion(option('twit.apiVersion'));
 
         # Initialize cache
         $twitterCache = kirby()->cache('hashandsalt.kirby-twitter.tweets');
@@ -73,12 +77,19 @@ class Twitter {
         # If there's nothing in the cache ..
         if ($tweets === null) {
             # .. fetch it!
+
+            if (option('twit.apiVersion') === '1.1') {
             $tweets = self::$connection->get($type, [
                 'tweet_mode' => 'extended',
                 'screen_name' => $screenName,
                 'exclude_replies' => $excludeReplies,
                 'count' => $count,
             ]);
+            } elseif (option('twit.apiVersion') === '2') {
+                $tweets = self::$connection->get($type, [
+                    'ids' => $screenName,
+                ]);
+            }
 
             $tweets = json_decode(json_encode($tweets), true);
 
@@ -112,10 +123,15 @@ class Twitter {
         # If there's nothing in the cache ..
         if ($single === null) {
             # .. fetch it!
-            $single = self::$connection->get('statuses/show', [
-                'tweet_mode' => 'extended',
-                'id' => $id,
-            ]);
+
+            if (option('twit.apiVersion') === '1.1') {
+                $single = self::$connection->get('statuses/show', [
+                    'tweet_mode' => 'extended',
+                    'id' => $id,
+                ]);
+                } elseif (option('twit.apiVersion') === '2') {
+                   
+                }
 
             $single = json_decode(json_encode($single), true);
 
@@ -157,7 +173,7 @@ class Twitter {
      * @param array $attributes
      * @return string
      */
-    public function linkify(string $value, array $protocols = ['http', 'https', 'twitter', 'mail'], array $attributes = ['target' => '_blank', 'rel' => 'noopener']): string
+    public function linkify(mixed $value, array $protocols = ['http', 'https', 'twitter', 'mail'], array $attributes = ['target' => '_blank', 'rel' => 'noopener']): string
     {
         # Link attributes
         $attr = '';

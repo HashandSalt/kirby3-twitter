@@ -11,7 +11,7 @@
     ],
     "require": {
         "getkirby/composer-installer": "^1.1",
-        "abraham/twitteroauth": "^2.0"
+        "abraham/twitteroauth": "^3.0"
     },
     "config": {
         "optimize-autoloader": true

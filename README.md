@@ -54,6 +54,7 @@ You wont get far without authenticating. Set the following in your config to gai
 'twit.consumersecret'    => 'XXX',
 'twit.accesstoken'       => 'XXX',
 'twit.accesstokensecret' => 'XXX',
+'twit.apiVersion'        => '1.1',
 'twit.cachelife'         =>  30,
 ```
 
@@ -74,7 +75,7 @@ You can access more than `statuses/user_timeline`, like `statuses/home_timeline`
 To get tweets from another timeline, you pass in a screen name as the 4th parameter:
 
 ```
-<?php snippet('twitter/tweets', ['type' => 'statuses/user_timeline', 'count' => 6, 'excludeReplies' => true, 'screenName' => 'getkirby', 'media' => true]) ?>
+<?= snippet('twitter/tweets', ['type' => 'statuses/user_timeline', 'count' => 6, 'excludeReplies' => true, 'screenName' => 'getkirby', 'media' => true]) ?>
 ```
 
 The full information from the API is in the collection. `dump()` the collection to see other information you may want to use.
