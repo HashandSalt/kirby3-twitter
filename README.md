@@ -70,11 +70,11 @@ $screenName = 'getkirby';
 
 The Plugin makes three page methods available.
 
-// for getting single tweets or timelines
+### For getting single tweets or timelines
 ```
 $page->tweets(...);
 ```
-// For getting user info
+### For getting user info
 ```
 $page->twitterUserName($myid);
 $page->twitterUserId($screenName);
