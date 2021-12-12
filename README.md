@@ -68,6 +68,35 @@ $myid = 815859093273509888;
 $screenName = 'getkirby';
 ```
 
+
+
+## Snippets
+
+There are two helpful snippets to get you started.
+
+### API V1.1
+Single Tweet
+```
+<?= snippet('twitter/tweet', ['cachename' => 'yourcachename', 'media' => true, 'params' => ['id' => $tweetid, 'tweet_mode' => 'extended']])?>
+```
+Users Timeline
+```
+<?= snippet('twitter/tweets', ['cachename' => 'yourcachename', 'media' => true, 'params' => ['screen_name' => $screenName, 'tweet_mode' => 'extended', 'count' => 20, 'exclude_replies' => true]])?>
+```
+
+### API V2
+Single Tweet
+```
+<?= snippet('twitter/tweet', ['cachename' => 'yourcachename', 'media' => true, 'params' => ['ids' => $tweetid]])?>
+```
+
+Users Timeline
+```
+<?= snippet('twitter/tweets', ['cachename' => 'yourcachename', 'screenname' => $screenName, 'media' => true, 'params' => ['max_results' => 20]])?>
+```
+
+## Usage
+
 The Plugin makes three page methods available.
 
 ### For getting single tweets or timelines
