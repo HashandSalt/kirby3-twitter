@@ -1,6 +1,6 @@
 # Kirby Twit: Work with Twitter Timelines
 
-A small plugin that is a wrapper around [twitteroauth](https://github.com/abraham/twitteroauth). Allows you to display tweets on your website without having use Twitters embedded timelines.
+A small plugin that is a wrapper around [twitteroauth](https://github.com/abraham/twitteroauth). Allows you to display tweets on your website without having use Twitters embedded timelines. The plugin supports both V1.1 and V2 of the API. Plugin was tested on PHP 8 using Kirby 3.6+
 
 Features:
 
@@ -8,9 +8,7 @@ Features:
 * Caches results from API, in a unique file per set
 * Automagically turns all links, hashtags and @ mentions into clickable links.
 
-
 ****
-
 
 ## Commerical Usage
 
@@ -21,11 +19,9 @@ This plugin is free but if you use it in a commercial project please consider to
 
 ****
 
-
 ## How to use Kirby Twitter
 
 First you need access to the Twitter API, and for that you need an account. Register your website as an [application here](https://developer.twitter.com/en/apps).
-
 
 ****
 
@@ -50,6 +46,7 @@ You wont get far without authenticating. Set the following in your config to gai
 
 ```
 'cache.hashandsalt.kirby-twitter.tweets' => true,
+'twit.bearer'            => 'XXX',
 'twit.consumerkey'       => 'XXX',
 'twit.consumersecret'    => 'XXX',
 'twit.accesstoken'       => 'XXX',
@@ -61,34 +58,91 @@ You wont get far without authenticating. Set the following in your config to gai
 
 ## Usage
 
-To get tweets from your own timeline:
+To switch between APIs set the config option accordingly. `'twit.apiVersion' => '1.1'`
+
+Assuming the below details to work with:
 
 ```
-<?= snippet('twitter/tweets', ['type' => 'statuses/home_timeline', 'count' => 6, 'excludeReplies' => true, 'screenName' => null, 'media' => true])?>
+$tweetid = 1469448484185067523;
+$myid = 815859093273509888;
+$screenName = 'getkirby';
 ```
 
-You can access more than `statuses/user_timeline`, like `statuses/home_timeline`. Refer to the [Twitter api](https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline) for more options.
+The Plugin makes three page methods available.
 
-
-## Get tweets from another timeline
-
-To get tweets from another timeline, you pass in a screen name as the 4th parameter:
-
+// for getting single tweets or timelines
 ```
-<?= snippet('twitter/tweets', ['type' => 'statuses/user_timeline', 'count' => 6, 'excludeReplies' => true, 'screenName' => 'getkirby', 'media' => true]) ?>
+$page->tweets(...);
 ```
-
-The full information from the API is in the collection. `dump()` the collection to see other information you may want to use.
-
-Modify the snippets according to your desired HTML.
-
-
-## Get specific tweet by its ID
-
+// For getting user info
 ```
-<?php snippet('twitter/tweet', ['id' => '1388604038015447042', 'media' => true]) ?>
+$page->twitterUserName($myid);
+$page->twitterUserId($screenName);
 ```
 
+
+### API V1.1
+
+#### Single Tweet
+To get a sungle tweet, set the name of the cache data file as the first param, second param is the API path, followed by optional API parameters.
+```
+$result = $page->tweets('mysingletweet', 'statuses/show', ['id' => $tweetid, 'tweet_mode' => 'extended']);
+```
+#### Username From ID
+Returns a users name from an ID number
+```
+$result2 = $page->twitterUserName($myid);
+```
+#### ID From Username
+Returns a users ID from an username
+
+```
+$result3 = $page->twitterUserId($screenName);
+```
+#### Own Time line
+Returns a your own timeline given an ID. Set the name of the cache data file as the first param, second param is the API path, followed by optional API parameters.
+```
+$result4 = $page->tweets('mytweets', 'statuses/home_timeline', ['count' => 20, 'exclude_replies' => true, 'tweet_mode' => 'extended']);
+```
+#### Other users Time line
+Returns a users timeline given an ID. Set the name of the cache data file as the first param, second param is the API path, followed by optional API parameters.
+```
+$result5 = $page->tweets('someUser', 'statuses/user_timeline', ['screen_name' => $screenName, 'count' => 20, 'exclude_replies' => true, 'tweet_mode' => 'extended']);
+```
+
+
+### API V2
+
+#### Single Tweet
+To get a sungle tweet, set the name of the cache data file as the first param, second param is the API path, followed by optional API parameters.
+
+```
+$result = $page->tweets('mysingletweet', 'tweets', ['ids' => $tweetid]); 
+```
+
+#### Username From ID
+
+Returns a users name from an ID number
+
+``` 
+$result2 = $page->twitterUserName($myid);
+```
+
+#### ID From Username
+
+Returns a users ID from an username
+
+```
+$result3 = $page->twitterUserId($screenName);
+```
+#### Get a users Timeline
+
+Returns a users timeline given an ID. Set the name of the cache data file as the first param, second param is the API path, followed by optional API parameters.
+``` 
+$result4 =  $page->tweets($result3, 'users/'.$result3.'/tweets', [
+  'max_results' => 20
+]);
+```
 
 ## Known Issues
 

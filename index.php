@@ -18,12 +18,17 @@ Kirby::plugin('hashandsalt/twitter', [
 
     # Page methods
     'pageMethods' => [
-        'tweets' => function ($type, $count, $er, $screenName) {
+        'tweets' => function ($uid, $path, $params) {
             $init = new Twitter();
-            return $init->timeline($type, $count, $er, $screenName);
+            return $init->tweet($uid, $path, $params);
         },
-        'tweet' => function (string $id) {
-            return (new Twitter())->single($id);
+        'twitterUserName' => function ($id) {
+            $init = new Twitter();
+            return $init->twitterUserName($id);
         },
+        'twitterUserId' => function ($name) {
+            $init = new Twitter();
+            return $init->twitterUserId($name);
+        }
     ],
 ]);

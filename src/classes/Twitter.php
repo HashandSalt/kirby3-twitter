@@ -13,6 +13,14 @@ class Twitter {
      */
     private static $connection = null;
 
+    /**
+     * Temp Data
+     *
+     * @var mixed
+     */
+    public $data;
+
+
 
     /**
      * Multiple tweets
@@ -29,6 +37,21 @@ class Twitter {
      */
     public $single;
 
+    /**
+     * Cache
+     *
+     * @var string
+     */
+
+    public $twitterCache;
+
+
+     /**
+     * User
+     *
+     * @var mixed
+     */
+    public $user;
 
     /**
      * Initializes connection with Twitter API
@@ -43,21 +66,17 @@ class Twitter {
             option('twit.accesstoken'),
             option('twit.accesstokensecret')
         );
-
-
     }
 
-
     /**
-     * Fetches all tweets in timeline
+     * Fetches Twitter Data
      *
-     * @param string $type
-     * @param int $count
-     * @param bool $excludeReplies
-     * @param string $screenName
+     * @param string $uid
+     * @param string $path
+     * @param array $params
      * @return array
      */
-    public function timeline(string $type, int $count, bool $excludeReplies, mixed $screenName): array
+    public function tweet(string $uid, string $path, array $params): array
     {
         # Ensure API connection
         if (!self::$connection) {
@@ -66,90 +85,110 @@ class Twitter {
 
         self::$connection->setApiVersion(option('twit.apiVersion'));
 
-        # Initialize cache
-        $twitterCache = kirby()->cache('hashandsalt.kirby-twitter.tweets');
+        $tweets = self::$connection->get($path, $params);
 
-        # Determine cache key
-        $cacheName = $screenName ? $screenName : 'timeline';
-
-        $tweets = $twitterCache->get($cacheName);
-
-        # If there's nothing in the cache ..
-        if ($tweets === null) {
-            # .. fetch it!
-
-            if (option('twit.apiVersion') === '1.1') {
-            $tweets = self::$connection->get($type, [
-                'tweet_mode' => 'extended',
-                'screen_name' => $screenName,
-                'exclude_replies' => $excludeReplies,
-                'count' => $count,
-            ]);
-            } elseif (option('twit.apiVersion') === '2') {
-                $tweets = self::$connection->get($type, [
-                    'ids' => $screenName,
-                ]);
-            }
-
-            $tweets = json_decode(json_encode($tweets), true);
-
-            # Cache results
-            $twitterCache->set($cacheName, $tweets, option('twit.cachelife'));
-        }
+        $tweets = $this->twitterCache($uid, $tweets);
 
         return $this->tweets = $this->setLinks($tweets);
+
+        
     }
 
 
     /**
-     * Fetches single tweet by ID
+     * Fetches User by ID
      *
      * @param string $id
-     * @return array
+     * @return string
      */
-    public function single(string $id): array
+
+    public function twitterUserName(string $id): string
     {
         # Ensure API connection
         if (!self::$connection) {
             \HashAndSalt\Twitter\Twitter::init();
         }
-
-        # Initialize cache
-        $twitterCache = kirby()->cache('hashandsalt.kirby-twitter.tweets');
-
-        # Determine cache key
-        $single = $twitterCache->get($id);
-
-        # If there's nothing in the cache ..
-        if ($single === null) {
-            # .. fetch it!
-
-            if (option('twit.apiVersion') === '1.1') {
-                $single = self::$connection->get('statuses/show', [
-                    'tweet_mode' => 'extended',
-                    'id' => $id,
-                ]);
-                } elseif (option('twit.apiVersion') === '2') {
-                   
-                }
-
-            $single = json_decode(json_encode($single), true);
-
-            # Cache results
-            $twitterCache->set($id, $single, option('twit.cachelife'));
+        self::$connection->setApiVersion(option('twit.apiVersion'));
+        $userString = '';
+        if (option('twit.apiVersion') === '1.1') {
+            $userData = self::$connection->get('users/lookup', ['user_id' => $id]);
+            $userString = $userData[0]->screen_name;
+        } elseif (option('twit.apiVersion') === '2') {
+            $userData = self::$connection->get('users', ['ids' => $id]);
+            $userString = $userData->data[0]->username;
         }
+      
+        
+        return $this->user = $userString;
+    }
 
-        return $this->single = $this->setLinks($single);
+
+    /**
+     * Fetches User by Name
+     *
+     * @param string $name
+     * @return array
+     */
+
+    public function twitterUserId(string $name): string
+    {
+        # Ensure API connection
+        if (!self::$connection) {
+            \HashAndSalt\Twitter\Twitter::init();
+        }
+        self::$connection->setApiVersion(option('twit.apiVersion'));
+        $userString = '';
+        if (option('twit.apiVersion') === '1.1') {
+            $userData = self::$connection->get('users/lookup', ['screen_name' => $name]);
+            $userString = $userData[0]->id_str;
+        } elseif (option('twit.apiVersion') === '2') {
+            $userData = self::$connection->get('users/by/username/' . $name);
+            $userString = $userData->data->id;
+        }
+       
+        
+        return $this->user = $userString;
+    }
+ 
+
+
+
+    /**
+     * Cache the data from Twitter
+     *
+     * @param string $name
+     * @return array
+     */
+
+   public function twitterCache(string $cacheName, mixed $cacheData): array
+   {
+
+    $twitterCache = kirby()->cache('hashandsalt.kirby-twitter.tweets');
+    
+    $data = $twitterCache->get($cacheName);
+
+    if ($data === null) {
+        # .. fetch it!
+
+        $data = $cacheData;
+
+        $data = json_decode(json_encode($data), true);
+
+        # Cache results
+        $twitterCache->set($cacheName, $data, option('twit.cachelife'));
+    }
+
+    return $this->data = $data;
+
    }
-
-
+   
     /**
      * Extracts texts to `linkify` their contents
      *
      * @param array $source
      * @return array
      */
-    public function setLinks(array $source): array
+    public function setLinks(mixed $source): array
     {
         array_walk_recursive(
             $source, function (&$value, $key) {
